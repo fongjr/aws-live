@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Modify Employee</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Aweseome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="p-5 bg-primary text-white text-center">
+        <h1>Human Resources Software</h1>
+        <p>by HurryTech</p> 
+    </div>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ml-5">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home <span class="sr-only">(current)</span></a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="/employee"><i class="fa fa-user" aria-hidden="true"></i> Employee <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/performanceNote"><i class="fa fa-trophy" aria-hidden="true"></i> Performance Note</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/portfolio"><i class="fa fa-address-card" aria-hidden="true"></i> Portfolio</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto mr-5">
+                <li class="nav-item dropdown">
+                    {% if session.name %}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Mr/Mrs. {{ session.name }}
+                    </a>
+                    {% endif %}
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/portfolio"><i class="fa fa-address-card" aria-hidden="true"></i> Portfolio</a>
+                        <!-- <a class="dropdown-item" href="#">Another action</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Employee Details
+                            <a href="/employee" class="btn btn-danger float-right">BACK</a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/modifyEmployee" autocomplete="on" method="POST" enctype="multipart/form-data">
+                            {% if employee %}
+                            <div class="mb-3">
+                                <label>ID</label>
+                                <input type="text" name="empId" class="form-control" value="{{employee[0]}}" readonly="readonly" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Name *</label>
+                                <input type="text" name="empName" class="form-control" value="{{employee[1]}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Email *</label>
+                                <input type="email" name="empEmail" class="form-control" value="{{employee[2]}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Password *</label>
+                                <input type="password" name="empPassword" class="form-control" value="{{employee[3]}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Training *</label><br>
+                                <div class="form-check form-check-inline">
+                                    {% if "EC2" in employee[4] %}
+                                    <input class="form-check-input" type="checkbox" id="checkbox1" name="empTraining" value="EC2" {{employee[7]}}>
+                                    {% else %}
+                                    <input class="form-check-input" type="checkbox" id="checkbox1" name="empTraining" value="EC2">
+                                    {% endif %}
+                                    <label class="form-check-label" for="checkbox1">EC2</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    {% if "S3" in employee[4] %}
+                                    <input class="form-check-input" type="checkbox" id="checkbox2" name="empTraining" value="S3" {{employee[7]}}>
+                                    {% else %}
+                                    <input class="form-check-input" type="checkbox" id="checkbox2" name="empTraining" value="S3">
+                                    {% endif %}
+                                    <label class="form-check-label" for="checkbox2">S3</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    {% if "RDS" in employee[4] %}
+                                    <input class="form-check-input" type="checkbox" id="checkbox3" name="empTraining" value="RDS" {{employee[7]}}>
+                                    {% else %}
+                                    <input class="form-check-input" type="checkbox" id="checkbox3" name="empTraining" value="RDS">
+                                    {% endif %}
+                                    <label class="form-check-label" for="checkbox3">RDS</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label>Certification * (Image File Only)</label>
+                                <br>
+                                <a href="{{employee[6]}}"><img src={{employee[6]}} style="width: 250px"></a>
+                                <input type="file" name="empCert" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" name="empSave" class="btn btn-success">Modify Employee</button>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="mt-5 p-4 bg-dark text-white text-center">
+        <p>&copy; 2022 HurryTech.com </p>
+    </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
