@@ -195,7 +195,7 @@ def modifyNotePerformance():
         note_visibility = request.form['noteVisibility']
         
         # Add data to database #
-        update_sql = "UPDATE performance_note SET note_id='" + note_id + "', note_target_emp='" + note_target_emp + "', note_title='"  + note_title + "', note_description='" + note_description + "', note_report_emp='" + note_report_emp + "', note_visibility='" + note_visibility + "'" 
+        update_sql = "UPDATE performance_note SET note_target_emp='" + note_target_emp + "', note_title='"  + note_title + "', note_description='" + note_description + "', note_report_emp='" + note_report_emp + "', note_visibility='" + note_visibility + "' WHERE note_id='" + note_id + "'"
         cursor = db_conn.cursor()
         try:
             # Update data to database #
@@ -513,6 +513,6 @@ def logout():
     session["name"] = None
     return redirect(url_for('home'))
 
-# 
+#
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
