@@ -51,6 +51,8 @@ def check_file_extension(filename, allow_extensions):
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if not session.get("name"):
+        return render_template('Login.html')
+    else:
         sql_query = "SELECT * FROM employee WHERE NOT EXISTS (SELECT * FROM employee_resigned WHERE employee.emp_id = employee_resigned.emp_id)"
         cursor = db_conn.cursor()
         try:
@@ -66,11 +68,9 @@ def home():
             records = cursor.fetchall()
             totalResignedEmployee = len(records)
             cursor.close()
-            return render_template('Login.html', totalEmployee = totalEmployee, totalPerformanceNote = totalPerformanceNote, totalResignedEmployee = totalResignedEmployee)
         except Exception as e:
             return str(e)
-    else:
-        return render_template('Index.html')
+        return render_template('Index.html', totalEmployee = totalEmployee, totalPerformanceNote = totalPerformanceNote, totalResignedEmployee = totalResignedEmployee)
 
 @app.route("/portfolio", methods=['GET', 'POST'])
 def portfolio():
