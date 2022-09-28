@@ -65,6 +65,7 @@ def home():
             cursor.execute(sql_query)
             records = cursor.fetchall()
             totalResignedEmployee = len(records)
+            cursor.close()
             return render_template('Login.html', totalEmployee = totalEmployee, totalPerformanceNote = totalPerformanceNote, totalResignedEmployee = totalResignedEmployee)
         except Exception as e:
             return str(e)
